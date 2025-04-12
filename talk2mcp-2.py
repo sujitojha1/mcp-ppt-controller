@@ -125,22 +125,27 @@ Available tools:
 You must respond with EXACTLY ONE line in one of these formats (no additional text):
 1. For function calls:
    FUNCTION_CALL: function_name|param1|param2|...
+
+2. For painting the result before returning, you must make two function calls in order:
+    FUNCTION_CALL: function_name|param1|param2|...
+    FUNCTION_CALL: function_name|param1|param2|...
    
-2. For final answers:
+3. For final answers:
    FINAL_ANSWER: [number]
 
 Important:
 - When a function returns multiple values, you need to process all of them
-- Only give FINAL_ANSWER when you have completed all necessary calculations
+- Only give FINAL_ANSWER after you've completed all calculations and called the paint function with the result
 - Do not repeat function calls with the same parameters
 
 Examples:
 - FUNCTION_CALL: add|5|3
 - FUNCTION_CALL: strings_to_chars_to_int|INDIA
+- FUNCTION_CALL: paint|42
 - FINAL_ANSWER: [42]
 
 DO NOT include any explanations or additional text.
-Your entire response should be a single line starting with either FUNCTION_CALL: or FINAL_ANSWER:"""
+Your entire response should be a single line starting with either FUNCTION_CALL: or FINAL_ANSWER"""
 
                 query = """Find the ASCII values of characters in INDIA and then return sum of exponentials of those values. """
                 print("Starting iteration loop...")
@@ -274,26 +279,26 @@ Your entire response should be a single line starting with either FUNCTION_CALL:
                         # Wait longer for Paint to be fully maximized
                         await asyncio.sleep(1)
 
-                        # Draw a rectangle
-                        result = await session.call_tool(
-                            "draw_rectangle",
-                            arguments={
-                                "x1": 780,
-                                "y1": 380,
-                                "x2": 1140,
-                                "y2": 700
-                            }
-                        )
-                        print(result.content[0].text)
+                        # # Draw a rectangle
+                        # result = await session.call_tool(
+                        #     "draw_rectangle",
+                        #     arguments={
+                        #         "x1": 780,
+                        #         "y1": 380,
+                        #         "x2": 1140,
+                        #         "y2": 700
+                        #     }
+                        # )
+                        # print(result.content[0].text)
 
-                        # Draw rectangle and add text
-                        result = await session.call_tool(
-                            "add_text_in_paint",
-                            arguments={
-                                "text": response_text
-                            }
-                        )
-                        print(result.content[0].text)
+                        # # Draw rectangle and add text
+                        # result = await session.call_tool(
+                        #     "add_text_in_paint",
+                        #     arguments={
+                        #         "text": response_text
+                        #     }
+                        # )
+                        # print(result.content[0].text)
                         break
 
                     iteration += 1
