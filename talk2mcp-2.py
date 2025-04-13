@@ -14,7 +14,7 @@ load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=api_key)
 
-max_iterations = 6
+max_iterations = 8
 last_response = None
 iteration = 0
 iteration_response = []
@@ -128,13 +128,16 @@ You must respond with EXACTLY ONE line in one of these formats (no additional te
 
 2. For painting the result before returning, you must make two function calls to open paint and draw rectangle in order:
     FUNCTION_CALL: function_name|param1|param2|...
-   
-3. For final answers:
+
+3. For sending the result as email before returning, you must make a call to send the email with subject and message as results:
+    FUNCTION_CALL: function_name|param1|param2|...
+       
+4. For final answers:
    FINAL_ANSWER: [number]
 
 Important:
 - When a function returns multiple values, you need to process all of them
-- Only give FINAL_ANSWER after you've completed all calculations and called the paint function with the result
+- Only give FINAL_ANSWER after you've completed all calculations, called the paint function with the result and send the results to self email
 - Do not repeat function calls with the same parameters
 
 Examples:
@@ -146,7 +149,7 @@ Examples:
 DO NOT include any explanations or additional text.
 Your entire response should be a single line starting with either FUNCTION_CALL: or FINAL_ANSWER"""
 
-                query = """Find the ASCII values of characters in INDIA, then return sum of exponentials of those values and open the paint and draw the result. """
+                query = """Find the ASCII values of characters in INDIA, then return sum of exponentials of those values, send the result over email, and open the paint and draw the result. """
                 print("Starting iteration loop...")
                 
                 # Use global iteration variables
