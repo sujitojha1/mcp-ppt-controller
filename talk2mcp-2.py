@@ -14,7 +14,7 @@ load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=api_key)
 
-max_iterations = 3
+max_iterations = 6
 last_response = None
 iteration = 0
 iteration_response = []
@@ -126,8 +126,7 @@ You must respond with EXACTLY ONE line in one of these formats (no additional te
 1. For function calls:
    FUNCTION_CALL: function_name|param1|param2|...
 
-2. For painting the result before returning, you must make two function calls in order:
-    FUNCTION_CALL: function_name|param1|param2|...
+2. For painting the result before returning, you must make two function calls to open paint and draw rectangle in order:
     FUNCTION_CALL: function_name|param1|param2|...
    
 3. For final answers:
@@ -147,7 +146,7 @@ Examples:
 DO NOT include any explanations or additional text.
 Your entire response should be a single line starting with either FUNCTION_CALL: or FINAL_ANSWER"""
 
-                query = """Find the ASCII values of characters in INDIA and then return sum of exponentials of those values. """
+                query = """Find the ASCII values of characters in INDIA, then return sum of exponentials of those values and open the paint and draw the result. """
                 print("Starting iteration loop...")
                 
                 # Use global iteration variables
@@ -273,11 +272,11 @@ Your entire response should be a single line starting with either FUNCTION_CALL:
 
                     elif response_text.startswith("FINAL_ANSWER:"):
                         print("\n=== Agent Execution Complete ===")
-                        result = await session.call_tool("open_paint")
-                        print(result.content[0].text)
+                        # result = await session.call_tool("open_paint")
+                        # print(result.content[0].text)
 
-                        # Wait longer for Paint to be fully maximized
-                        await asyncio.sleep(1)
+                        # # Wait longer for Paint to be fully maximized
+                        # await asyncio.sleep(1)
 
                         # # Draw a rectangle
                         # result = await session.call_tool(
